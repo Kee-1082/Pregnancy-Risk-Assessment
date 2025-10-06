@@ -1,0 +1,99 @@
+YEAR,SOURCE,QUESTION,PREVALENCE %,LOWER 95% CONFIDENCE INTERVAL,UPPER 95% CONFIDENCE INTERVAL
+2016,PRAMS,chronic diabetes or hypertension before pregnancy,8,6.6,9.7
+2016,PRAMS,reporting health as fair or poor before pregnancy,6.9,5.6,8.5
+2016,PRAMS,smoking before pregnancy,9.2,7.7,11
+2016,PRAMS,one or more drinks per week  before pregnancy,24.3,22,26.8
+2016,PRAMS,eight or more drinks per week before pregnancy,2.7,1.9,3.7
+2016,PRAMS,uninsured before pregnancy,12.2,10.5,14.2
+2016,PRAMS,experienced racial bias during pregnancy,8.5,7,10.2
+2016,PRAMS,experienced difficulty paying bills during pregnancy,12.8,11,14.8
+2016,PRAMS,experienced postpartum depression symptoms,14.5,12.6,16.7
+2016,PRAMS,experienced food insecurity,16.9,14.9,19.2
+2016,PRAMS,breastfeeding initiation (among mothers whose baby is alive and residing with her),90.1,88.2,91.7
+2016,PRAMS,any breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),71.7,69,74.2
+2016,PRAMS,exclusive breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),31.3,28.6,34.1
+2016,PRAMS,baby sleeping on his/her back,69.2,66.5,71.8
+2018,PRAMS,chronic diabetes or hypertension before pregnancy,6.5,5.2,8.1
+2018,PRAMS,reporting health as fair or poor before pregnancy,6.5,5.1,8.1
+2018,PRAMS,smoking before pregnancy,4.3,3.2,5.7
+2018,PRAMS,one or more drinks per week  before pregnancy,23.7,21.3,26.3
+2018,PRAMS,eight or more drinks per week before pregnancy,1.7,1.1,2.6
+2018,PRAMS,uninsured before pregnancy,9.5,7.8,11.4
+2018,PRAMS,experienced racial bias during pregnancy,7.5,6,9.2
+2018,PRAMS,experienced difficulty paying bills during pregnancy,9.8,8.1,11.8
+2018,PRAMS,experienced postpartum depression symptoms,15.5,13.4,17.8
+2018,PRAMS,experienced food insecurity,12.7,10.8,15
+2018,PRAMS,breastfeeding initiation (among mothers whose baby is alive and residing with her),92.2,90.4,93.7
+2018,PRAMS,any breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),73.9,71.1,76.6
+2018,PRAMS,exclusive breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),34.4,31.4,37.5
+2018,PRAMS,baby sleeping on his/her back,68.6,65.6,71.3
+2017,PRAMS,chronic diabetes or hypertension before pregnancy,6.9,5.6,8.5
+2017,PRAMS,reporting health as fair or poor before pregnancy,6.2,4.9,7.8
+2017,PRAMS,smoking before pregnancy,7.6,6.2,9.4
+2017,PRAMS,one or more drinks per week  before pregnancy,24.1,21.6,26.7
+2017,PRAMS,eight or more drinks per week before pregnancy,2.4,1.6,3.5
+2017,PRAMS,uninsured before pregnancy,10,8.4,12
+2017,PRAMS,experienced racial bias during pregnancy,8,6.5,9.8
+2017,PRAMS,experienced difficulty paying bills during pregnancy,13.6,11.6,15.7
+2017,PRAMS,experienced postpartum depression symptoms,13.3,11.4,15.5
+2017,PRAMS,experienced food insecurity,15,13,17.4
+2017,PRAMS,breastfeeding initiation (among mothers whose baby is alive and residing with her),91.8,89.9,93.3
+2017,PRAMS,any breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),76.3,73.6,78.8
+2017,PRAMS,exclusive breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),33.9,31,36.9
+2017,PRAMS,baby sleeping on his/her back,71.6,68.7,74.2
+2021,PRAMS,chronic diabetes or hypertension before pregnancy,6.1,4.8,7.8
+2021,PRAMS,reporting health as fair or poor before pregnancy,7.2,5.7,9.1
+2021,PRAMS,smoking before pregnancy,4.5,3.4,6
+2021,PRAMS,one or more drinks per week  before pregnancy,26.3,23.5,29.2
+2021,PRAMS,eight or more drinks per week before pregnancy,2.5,1.7,3.6
+2021,PRAMS,uninsured before pregnancy,8.9,7.2,11
+2021,PRAMS,experienced racial bias during pregnancy,7.7,6.2,9.6
+2021,PRAMS,experienced difficulty paying bills during pregnancy,10.9,9,13.1
+2021,PRAMS,experienced postpartum depression symptoms,13.1,11,15.4
+2021,PRAMS,experienced food insecurity,11.8,9.8,14.1
+2021,PRAMS,breastfeeding initiation (among mothers whose baby is alive and residing with her),93.1,91.3,94.6
+2021,PRAMS,any breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),76.9,74,79.6
+2021,PRAMS,exclusive breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),29.8,26.8,33
+2021,PRAMS,baby sleeping on his/her back,73.3,70.3,76.2
+2019,PRAMS,chronic diabetes or hypertension before pregnancy,6.5,5.1,8.2
+2019,PRAMS,reporting health as fair or poor before pregnancy,6.1,4.7,7.8
+2019,PRAMS,smoking before pregnancy,5.9,4.6,7.5
+2019,PRAMS,one or more drinks per week  before pregnancy,22.1,19.7,24.8
+2019,PRAMS,eight or more drinks per week before pregnancy,2.6,1.8,3.7
+2019,PRAMS,uninsured before pregnancy,8,6.4,10.1
+2019,PRAMS,experienced racial bias during pregnancy,8.2,6.6,10.2
+2019,PRAMS,experienced difficulty paying bills during pregnancy,10.5,8.6,12.8
+2019,PRAMS,experienced postpartum depression symptoms,12.5,10.6,14.8
+2019,PRAMS,experienced food insecurity,14.3,12.1,16.8
+2019,PRAMS,breastfeeding initiation (among mothers whose baby is alive and residing with her),90.5,88.4,92.3
+2019,PRAMS,any breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),74.4,71.4,77.1
+2019,PRAMS,exclusive breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),30.6,27.6,33.7
+2019,PRAMS,baby sleeping on his/her back,72.1,69,75
+2020,PRAMS,chronic diabetes or hypertension before pregnancy,6.3,5,8.1
+2020,PRAMS,reporting health as fair or poor before pregnancy,7.1,5.6,9.1
+2020,PRAMS,smoking before pregnancy,3.6,2.6,5.1
+2020,PRAMS,one or more drinks per week  before pregnancy,22,19.5,24.8
+2020,PRAMS,eight or more drinks per week before pregnancy,2.3,1.5,3.4
+2020,PRAMS,uninsured before pregnancy,10.9,8.9,13.2
+2020,PRAMS,experienced racial bias during pregnancy,9,7.3,11.2
+2020,PRAMS,experienced difficulty paying bills during pregnancy,13.4,11.3,15.9
+2020,PRAMS,experienced postpartum depression symptoms,10,8.2,12.1
+2020,PRAMS,experienced food insecurity,15.4,13.1,18
+2020,PRAMS,breastfeeding initiation (among mothers whose baby is alive and residing with her),91.9,89.8,93.6
+2020,PRAMS,any breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),76.7,73.7,79.4
+2020,PRAMS,exclusive breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),34.8,31.5,38.2
+2020,PRAMS,baby sleeping on his/her back,71,67.8,74.1
+2022,PRAMS,chronic diabetes or hypertension before pregnancy,6.7,5.4,8.4
+2022,PRAMS,reporting health as fair or poor before pregnancy,7.1,5.7,8.9
+2022,PRAMS,smoking before pregnancy,3.8,2.8,5.2
+2022,PRAMS,one or more drinks per week  before pregnancy,22.7,20.2,25.4
+2022,PRAMS,eight or more drinks per week before pregnancy,1.9,1.2,3
+2022,PRAMS,uninsured before pregnancy,7.6,6.1,9.4
+2022,PRAMS,experienced racial bias during pregnancy,9.4,7.7,11.4
+2022,PRAMS,experienced difficulty paying bills during pregnancy,12.5,10.5,14.7
+2022,PRAMS,experienced postpartum depression symptoms,11.5,9.6,13.6
+2022,PRAMS,experienced food insecurity,15.7,13.5,18.1
+2022,PRAMS,breastfeeding initiation (among mothers whose baby is alive and residing with her),94.3,92.7,95.6
+2022,PRAMS,any breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),78.8,76.1,81.3
+2022,PRAMS,exclusive breastfeeding at 8 weeks (among mothers whose baby is alive and residing with her),31.5,28.6,34.6
+2022,PRAMS,baby sleeping on his/her back,70.7,67.7,73.6
