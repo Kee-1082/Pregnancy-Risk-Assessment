@@ -24,349 +24,103 @@ st.set_page_config(
 )
 
 # ========================================
-# CUSTOM CSS - PASTEL YELLOW THEME
+# CUSTOM CSS - ENHANCED WARM THEME + FLOATING CHAT
 # ========================================
 pastel_css = """
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-    
-    * {
-        font-family: 'Poppins', 'Segoe UI', sans-serif;
-    }
-    
-    /* Main app background - PASTEL YELLOW */
-    .stApp {
-        background-color: #FFF9E6 !important;
-    }
-    
-    /* Header styling */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    * { font-family: 'Poppins', 'Segoe UI', sans-serif; }
+    .stApp { background: linear-gradient(135deg, #FFFAF5 0%, #FFF5EB 100%) !important; }
     .dashboard-header {
-        background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
-        padding: 30px;
-        border-radius: 15px;
-        color: #000000;
-        box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
-        margin-bottom: 30px;
-        text-align: center;
+        background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+        padding: 35px 30px; border-radius: 20px; color: #1C1C1C;
+        box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25);
+        margin-bottom: 30px; text-align: center; position: relative; overflow: hidden;
     }
-    
+    .dashboard-header::before {
+        content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+        animation: shimmer 8s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+        0%, 100% { transform: translate(-30%, -30%) rotate(0deg); }
+        50% { transform: translate(30%, 30%) rotate(5deg); }
+    }
     .dashboard-header h1 {
-        margin: 0;
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #000000;
+        margin: 0; font-size: 2.5rem; font-weight: 700; color: #1C1C1C; position: relative; z-index: 1;
     }
-    
     .dashboard-header p {
-        margin: 10px 0 0 0;
-        font-size: 1.1rem;
-        color: #000000;
-        opacity: 0.85;
+        margin: 8px 0 0 0; font-size: 1.1rem; color: #1C1C1C; opacity: 0.8; position: relative; z-index: 1;
     }
-    
-    /* Tab styling */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        background-color: transparent;
+        gap: 4px; background-color: transparent; border-bottom: 2px solid rgba(212, 175, 55, 0.2);
     }
-    
     .stTabs [data-baseweb="tab"] {
-        background-color: rgba(255, 255, 255, 0.7);
-        border-radius: 10px;
-        padding: 10px 20px;
-        color: #000000;
-        font-weight: 500;
-        border: 2px solid #FFA500;
+        background-color: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        border-radius: 12px 12px 0 0; padding: 12px 24px; color: #1C1C1C;
+        font-weight: 500; border: none; border-bottom: 3px solid transparent; transition: all 0.3s ease;
     }
-    
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
-        color: #000000;
-        border-color: #FF8C00;
+        background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+        border-bottom: 3px solid #C9A84C;
     }
-    
-    /* All text BLACK */
-    h1, h2, h3, h4, h5, h6, p, span, div, label {
-        color: #000000 !important;
-    }
-    
-    /* Section headers */
-    h3 {
-        margin-top: 20px !important;
-        margin-bottom: 15px !important;
-        font-weight: 600 !important;
-    }
-    
-    h4 {
-        margin-top: 15px !important;
-        margin-bottom: 10px !important;
-    }
-    
-    /* Input field labels - BLACK TEXT */
-    .stNumberInput label, .stCheckbox label, .stSelectbox label, 
-    .stTextInput label, .stTextArea label {
-        color: #000000 !important;
-        font-weight: 500 !important;
-        font-size: 0.95rem !important;
-    }
-    
-    /* Input fields - TRANSPARENT WHITE BACKGROUND */
-    .stNumberInput > div > div > input {
-        background-color: rgba(255, 255, 255, 0.7) !important;
-        color: #000000 !important;
-        border: 2px solid #FFA500 !important;
-        border-radius: 8px !important;
-        padding: 10px !important;
-        font-size: 1rem !important;
-        font-weight: 500 !important;
-    }
-    
-    .stNumberInput > div > div > input:focus {
-        border-color: #FF8C00 !important;
-        box-shadow: 0 0 0 2px rgba(255, 165, 0, 0.2) !important;
-        background-color: rgba(255, 255, 255, 0.9) !important;
-    }
-    
-    /* Checkbox styling - TRANSPARENT WHITE */
-    .stCheckbox {
-        background-color: rgba(255, 255, 255, 0.7);
-        padding: 8px 12px;
-        border-radius: 8px;
-        border: 1px solid #FFD700;
-        margin: 5px 0;
-    }
-    
-    .stCheckbox:hover {
-        border-color: #FFA500;
-        background-color: rgba(255, 255, 255, 0.9);
-    }
-    
-    .stCheckbox label {
-        color: #000000 !important;
-        font-weight: 500 !important;
-    }
-    
-    .stCheckbox label span {
-        color: #000000 !important;
-    }
-    
-    /* Expander styling - TRANSPARENT WHITE */
-    .streamlit-expanderHeader {
-        background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
-        color: #000000 !important;
-        border-radius: 10px;
-        font-weight: 600;
-        padding: 15px;
-    }
-    
-    .streamlit-expanderContent {
-        background-color: rgba(255, 255, 255, 0.7);
-        border: 2px solid #FFD700;
-        border-radius: 10px;
-        padding: 20px;
-        margin-top: 5px;
-    }
-    
-    /* Risk cards */
-    .risk-card-high {
-        background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%);
-        padding: 25px;
-        border-radius: 15px;
-        color: #000000;
-        box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
-        text-align: center;
-        margin: 20px 0;
-    }
-    
-    .risk-card-high h2, .risk-card-high h3, .risk-card-high p {
-        color: #000000 !important;
-        font-weight: 700;
-    }
-    
-    .risk-card-low {
-        background: linear-gradient(135deg, #7BED8D 0%, #5FD068 100%);
-        padding: 25px;
-        border-radius: 15px;
-        color: #000000;
-        box-shadow: 0 8px 25px rgba(95, 208, 104, 0.3);
-        text-align: center;
-        margin: 20px 0;
-    }
-    
-    .risk-card-low h2, .risk-card-low h3, .risk-card-low p {
-        color: #000000 !important;
-        font-weight: 700;
-    }
-    
-    /* Info box for risk factors */
-    .risk-factors-box {
-        background-color: rgba(255, 255, 255, 0.8);
-        border-left: 5px solid #FF6B6B;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .risk-factors-box h4 {
-        color: #FF6B6B !important;
-        margin-top: 0;
-    }
-    
-    .risk-factors-box ul {
-        color: #000000;
-        margin: 10px 0;
-    }
-    
-    .risk-factors-box li {
-        color: #000000 !important;
-        margin: 5px 0;
-        font-weight: 500;
-    }
-    
-    /* Metric styling */
-    .stMetric {
-        background-color: rgba(255, 255, 255, 0.7);
-        padding: 15px;
-        border-radius: 10px;
-        border-left: 4px solid #FFA500;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    }
-    
-    .stMetric label {
-        color: #000000 !important;
-        font-weight: 600 !important;
-    }
-    
-    .stMetric [data-testid="stMetricValue"] {
-        color: #000000 !important;
-        font-size: 2rem !important;
-        font-weight: 700 !important;
-    }
-    
-    /* Button styling - ANALYZE BUTTON */
-    .stButton > button {
-        background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%) !important;
-        color: #000000 !important;
-        border: 2px solid #FF8C00 !important;
-        border-radius: 10px !important;
-        padding: 15px 40px !important;
-        font-weight: 700 !important;
-        font-size: 1.1rem !important;
-        cursor: pointer !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3) !important;
-        width: 100%;
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(255, 140, 0, 0.5) !important;
-        background: linear-gradient(90deg, #FFA500 0%, #FF8C00 100%) !important;
-    }
-    
-    /* Download button */
-    .stDownloadButton > button {
-        background: linear-gradient(90deg, #7BED8D 0%, #5FD068 100%) !important;
-        color: #000000 !important;
-        border: 2px solid #4CAF50 !important;
-        border-radius: 10px !important;
-        padding: 12px 30px !important;
-        font-weight: 600 !important;
-        font-size: 1rem !important;
-    }
-    
-    .stDownloadButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4) !important;
-    }
-    
-    /* Sidebar styling - LIGHT ORANGE */
-    section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #FFE4B5 0%, #FFDAB9 100%) !important;
-        border-right: 3px solid #FFA500;
-    }
-    
-    section[data-testid="stSidebar"] h1,
-    section[data-testid="stSidebar"] h2,
-    section[data-testid="stSidebar"] h3,
-    section[data-testid="stSidebar"] p,
-    section[data-testid="stSidebar"] label,
-    section[data-testid="stSidebar"] span,
-    section[data-testid="stSidebar"] div {
-        color: #000000 !important;
-    }
-    
-    section[data-testid="stSidebar"] .stRadio label {
-        color: #000000 !important;
-        font-weight: 600 !important;
-    }
-    
-    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {
-        color: #000000 !important;
-    }
-    
-    /* Radio button text */
-    .stRadio label span {
-        color: #000000 !important;
-        font-weight: 500 !important;
-    }
-    
-    /* Info/Warning boxes */
-    .stAlert {
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 10px;
-        border-left: 4px solid #FFA500;
-        color: #000000 !important;
-    }
-    
-    .stAlert > div {
-        color: #000000 !important;
-    }
-    
-    /* Chat messages */
-    .stChatMessage {
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 10px;
-        padding: 15px;
-        margin: 10px 0;
-        border: 1px solid #FFD700;
-    }
-    
-    /* Dataframe styling */
-    .dataframe {
-        border: 2px solid #FFA500 !important;
-        border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.9);
-    }
-    
-    /* Remove default padding */
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-    
-    /* Horizontal rule */
-    hr {
-        border: none;
-        border-top: 2px solid #FFD700;
-        margin: 30px 0;
-    }
-    
-    /* Make sure all markdown text is black */
-    .stMarkdown, .stMarkdown p, .stMarkdown span, .stMarkdown div {
-        color: #000000 !important;
-    }
-    
-    /* Caption text */
-    .stCaption {
-        color: #000000 !important;
-        opacity: 0.7;
-    }
+    h1, h2, h3, h4, h5, h6, p, span, div, label { color: #1C1C1C !important; }
+    h3 { font-size: 1.35rem !important; font-weight: 600 !important; margin-top: 24px !important; margin-bottom: 16px !important; letter-spacing: -0.01em; }
+    h4 { margin-top: 16px !important; margin-bottom: 10px !important; }
+    .stNumberInput label, .stCheckbox label, .stSelectbox label, .stTextInput label, .stTextArea label { color: #1C1C1C !important; font-weight: 500 !important; font-size: 0.9rem !important; }
+    .stNumberInput > div > div > input, .stTextInput > div > div > input { background-color: rgba(255, 255, 255, 0.8) !important; color: #1C1C1C !important; border: 2px solid #E0D5C5 !important; border-radius: 12px !important; padding: 12px 16px !important; font-size: 0.95rem !important; font-weight: 500 !important; transition: all 0.3s ease !important; }
+    .stNumberInput > div > div > input:focus, .stTextInput > div > div > input:focus { border-color: #D4AF37 !important; box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15) !important; background-color: rgba(255, 255, 255, 0.95) !important; }
+    .stSelectbox > div > div { background-color: rgba(255, 255, 255, 0.8) !important; border: 2px solid #E0D5C5 !important; border-radius: 12px !important; }
+    .stCheckbox { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); padding: 10px 16px; border-radius: 12px; border: 1.5px solid #E8DCC8; margin: 6px 0; transition: all 0.3s ease; }
+    .stCheckbox:hover { border-color: #D4AF37; background: rgba(255, 255, 255, 0.9); transform: translateX(4px); }
+    .stCheckbox label { color: #1C1C1C !important; font-weight: 500 !important; }
+    .stCheckbox label span { color: #1C1C1C !important; }
+    .streamlit-expanderHeader { background: linear-gradient(135deg, #D4AF37 0%, #C49B2C 100%); color: #1C1C1C !important; border-radius: 14px; font-weight: 600; padding: 16px 20px; font-size: 0.95rem; box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2); transition: all 0.3s ease; }
+    .streamlit-expanderHeader:hover { box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3); }
+    .streamlit-expanderContent { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 0 0 14px 14px; padding: 24px; margin-top: 2px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); }
+    .risk-card-high, .risk-card-low { padding: 30px; border-radius: 20px; color: #1C1C1C; text-align: center; margin: 20px 0; animation: slideUp 0.5s ease-out; position: relative; overflow: hidden; }
+    .risk-card-high { background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%); box-shadow: 0 8px 32px rgba(231, 76, 60, 0.3); }
+    .risk-card-low { background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%); box-shadow: 0 8px 32px rgba(46, 204, 113, 0.3); }
+    .risk-card-high h2, .risk-card-high h3, .risk-card-high p, .risk-card-low h2, .risk-card-low h3, .risk-card-low p { color: #1C1C1C !important; font-weight: 700; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .risk-factors-box { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-left: 5px solid #E74C3C; padding: 20px 24px; border-radius: 14px; margin: 20px 0; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); animation: slideUp 0.4s ease-out; }
+    .risk-factors-box h4 { color: #E74C3C !important; margin-top: 0; }
+    .risk-factors-box ul { color: #1C1C1C; margin: 10px 0; }
+    .risk-factors-box li { color: #1C1C1C !important; margin: 6px 0; font-weight: 500; }
+    .stMetric { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); padding: 16px 20px; border-radius: 14px; border-left: 4px solid #D4AF37; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05); margin: 8px 0; }
+    .stMetric label { color: #1C1C1C !important; font-weight: 600 !important; font-size: 0.9rem !important; }
+    .stMetric [data-testid="stMetricValue"] { color: #1C1C1C !important; font-size: 1.8rem !important; font-weight: 700 !important; }
+    .stButton > button { background: linear-gradient(135deg, #D4AF37 0%, #C49B2C 100%) !important; color: #1C1C1C !important; border: none !important; border-radius: 12px !important; padding: 14px 36px !important; font-weight: 600 !important; font-size: 1.05rem !important; cursor: pointer !important; transition: all 0.3s ease !important; box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3) !important; width: 100%; letter-spacing: 0.02em; }
+    .stButton > button:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.45) !important; background: linear-gradient(135deg, #C49B2C 0%, #B8860B 100%) !important; }
+    .stButton > button:active { transform: translateY(0) !important; }
+    .stDownloadButton > button { background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%) !important; color: #1C1C1C !important; border: none !important; border-radius: 12px !important; padding: 12px 28px !important; font-weight: 600 !important; font-size: 0.95rem !important; box-shadow: 0 4px 16px rgba(46, 204, 113, 0.3) !important; transition: all 0.3s ease !important; }
+    .stDownloadButton > button:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 24px rgba(46, 204, 113, 0.45) !important; }
+    section[data-testid="stSidebar"] { background: linear-gradient(180deg, #F5E6D3 0%, #EDE0D4 100%) !important; border-right: 2px solid rgba(212, 175, 55, 0.2); }
+    section[data-testid="stSidebar"] h1, section[data-testid="stSidebar"] h2, section[data-testid="stSidebar"] h3, section[data-testid="stSidebar"] p, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] div { color: #1C1C1C !important; }
+    section[data-testid="stSidebar"] .stRadio [data-testid="stWidgetLabel"] { font-weight: 600 !important; padding: 8px 16px 4px; font-size: 1.15rem; }
+    section[data-testid="stSidebar"] .stRadio label { display: flex; align-items: center; gap: 8px; color: #1C1C1C !important; font-weight: 500 !important; padding: 10px 16px; border-radius: 10px; transition: all 0.2s ease; cursor: pointer; }
+    section[data-testid="stSidebar"] .stRadio label:hover { background: rgba(212, 175, 55, 0.12); transform: translateX(4px); }
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] { color: #1C1C1C !important; }
+    section[data-testid="stSidebar"] .stRadio > div { gap: 2px; padding: 0 8px; }
+    .stRadio label span { color: #1C1C1C !important; font-weight: 500 !important; }
+    .stAlert { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 12px; border-left: 4px solid #D4AF37; color: #1C1C1C !important; padding: 12px 16px; }
+    .stAlert > div { color: #1C1C1C !important; }
+    .stChatMessage { background: rgba(255, 255, 255, 0.85); border-radius: 14px; padding: 16px 20px; margin: 8px 0; border: 1px solid rgba(212, 175, 55, 0.15); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
+    div[data-testid="stChatMessageContent"] p { color: #1C1C1C !important; }
+    .dataframe { border: 2px solid rgba(212, 175, 55, 0.3) !important; border-radius: 12px; background: rgba(255, 255, 255, 0.9); overflow: hidden; }
+    .block-container { padding-top: 2rem; padding-bottom: 6rem; }
+    hr { border: none; border-top: 2px solid rgba(212, 175, 55, 0.2); margin: 30px 0; }
+    .stMarkdown, .stMarkdown p, .stMarkdown span, .stMarkdown div { color: #1C1C1C !important; }
+    .stCaption { color: #1C1C1C !important; opacity: 0.6; }
+    .stSpinner > div { border-top-color: #D4AF37 !important; }
+    div[data-testid="stToolbar"] { display: none; }
+    .stApp [data-testid="stHeader"] { background: rgba(255, 250, 245, 0.9); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+    .row-widget.stRadio > div { flex-direction: column; }
 </style>
 """
 
-st.markdown(pastel_css, unsafe_allow_html=True)
+
 
 # ========================================
 # LOAD MODEL ARTIFACTS - WITH ERROR HANDLING
@@ -451,6 +205,174 @@ def fetch_maternal_health_news():
 # ========================================
 # MAIN FUNCTION
 # ========================================
+
+def handle_faq(faq_key):
+    answers = {
+        "faq_bp": "**High Blood Pressure in Pregnancy:**\n\nBlood pressure >=140/90 mmHg is considered elevated. Normal is <120/80 mmHg. Hypertension during pregnancy can lead to complications like preeclampsia. Monitor BP regularly and contact your doctor if readings are consistently high.",
+        "faq_prenatal": "**Prenatal Visit Schedule:**\n\n* Weeks 1-28: Monthly visits\n* Weeks 28-36: Bi-weekly visits\n* Week 36+: Weekly visits\n\nHigh-risk pregnancies may require more frequent monitoring.",
+        "faq_exercise": "**Exercise During Pregnancy:**\n\nYes! 150 minutes of moderate activity per week is generally safe. Recommended: walking, swimming, prenatal yoga. Avoid: contact sports, lying flat after first trimester, activities with fall risk.",
+        "faq_emergency": "**Emergency Warning Signs:**\n\n🚨 Severe headache\n🚨 Vision changes/blurred vision\n🚨 Chest pain\n🚨 Severe abdominal pain\n🚨 Vaginal bleeding\n🚨 Decreased fetal movement\n🚨 Severe swelling of hands/face"
+    }
+    return answers.get(faq_key, "")
+
+
+def floating_chat_widget():
+    "Floating chat bubble widget at bottom-right corner"
+    widget_html = """<div id="preg-chat-root">
+    <button id="preg-chat-fab" onclick="pregToggleChat()">
+        <span id="preg-chat-icon">💬</span>
+        <span id="preg-chat-close-icon" style="display:none">✕</span>
+    </button>
+    <div id="preg-chat-panel">
+        <div id="preg-chat-header">
+            <span>🤖 AI Assistant</span>
+            <button id="preg-chat-close-btn" onclick="pregToggleChat()">✕</button>
+        </div>
+        <div id="preg-chat-body">
+            <div id="preg-chat-faq">
+                <div class="preg-faq-label">Quick Questions</div>
+                <button class="preg-faq-chip" onclick="pregShowFaq('bp')">Blood Pressure</button>
+                <button class="preg-faq-chip" onclick="pregShowFaq('prenatal')">Prenatal Visits</button>
+                <button class="preg-faq-chip" onclick="pregShowFaq('exercise')">Exercise Safety</button>
+                <button class="preg-faq-chip" onclick="pregShowFaq('emergency')">Emergency Signs</button>
+            </div>
+            <div id="preg-chat-messages">
+                <div class="preg-chat-empty">
+                    <div class="preg-chat-empty-icon">💬</div>
+                    <div class="preg-chat-empty-text">Ask a question or pick a topic above!</div>
+                </div>
+            </div>
+        </div>
+        <div id="preg-chat-footer">
+            <div id="preg-chat-ai-prompt">
+                For AI-powered answers, visit the
+                <a href="#" onclick="pregGoToAI()" style="color:#B8860B;font-weight:600">AI Health Assistant</a> page.
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var pregFaqs = {
+    bp: "**High Blood Pressure in Pregnancy:**\\n\\nBlood pressure >=140/90 mmHg is considered elevated. Normal is <120/80 mmHg. Hypertension during pregnancy can lead to complications like preeclampsia. Monitor BP regularly and contact your doctor if readings are consistently high.",
+    prenatal: "**Prenatal Visit Schedule:**\\n\\n* Weeks 1-28: Monthly visits\\n* Weeks 28-36: Bi-weekly visits\\n* Week 36+: Weekly visits\\n\\nHigh-risk pregnancies may require more frequent monitoring.",
+    exercise: "**Exercise During Pregnancy:**\\n\\nYes! 150 minutes of moderate activity per week is generally safe. Recommended: walking, swimming, prenatal yoga. Avoid: contact sports, lying flat after first trimester, activities with fall risk.",
+    emergency: "**Emergency Warning Signs:**\\n\\n\\ud83d\\udea8 Severe headache\\n\\ud83d\\udea8 Vision changes/blurred vision\\n\\ud83d\\udea8 Chest pain\\n\\ud83d\\udea8 Severe abdominal pain\\n\\ud83d\\udea8 Vaginal bleeding\\n\\ud83d\\udea8 Decreased fetal movement\\n\\ud83d\\udea8 Severe swelling of hands/face"
+};
+function pregToggleChat() {
+    var panel = document.getElementById('preg-chat-panel');
+    var fab = document.getElementById('preg-chat-fab');
+    var chatIcon = document.getElementById('preg-chat-icon');
+    var closeIcon = document.getElementById('preg-chat-close-icon');
+    if (panel.style.display === 'flex') {
+        panel.style.display = 'none';
+        fab.style.display = 'flex';
+        chatIcon.style.display = 'inline';
+        closeIcon.style.display = 'none';
+    } else {
+        panel.style.display = 'flex';
+        fab.style.display = 'none';
+    }
+}
+function pregShowFaq(key) {
+    var msgDiv = document.getElementById('preg-chat-messages');
+    var answer = pregFaqs[key] || 'No information available.';
+    var html = '<div class="preg-msg preg-faq-msg">' + answer.split('\\n').join('<br>') + '</div>';
+    msgDiv.innerHTML = html;
+}
+function pregGoToAI() {
+    var radios = document.querySelectorAll('.stRadio [role="radiogroup"] input');
+    if (radios.length >= 3) {
+        radios[2].click();
+    }
+    pregToggleChat();
+}
+</script>
+<style>
+#preg-chat-root { font-family: 'Poppins', sans-serif; }
+#preg-chat-fab {
+    position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+    border-radius: 50%; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+    font-size: 28px; transition: all 0.3s ease;
+    animation: pregPulse 2s ease-in-out infinite;
+}
+#preg-chat-fab:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5); }
+@keyframes pregPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4); }
+    50% { box-shadow: 0 4px 36px rgba(212, 175, 55, 0.65); }
+}
+#preg-chat-panel {
+    position: fixed; bottom: 100px; right: 24px; z-index: 9998;
+    width: 380px; height: 520px; background: white; border-radius: 20px;
+    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.18);
+    display: none; flex-direction: column; overflow: hidden;
+    animation: pregSlideIn 0.3s ease-out;
+}
+@keyframes pregSlideIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+#preg-chat-header {
+    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+    padding: 14px 20px; display: flex; justify-content: space-between;
+    align-items: center; flex-shrink: 0; font-weight: 600; color: #1C1C1C;
+}
+#preg-chat-close-btn {
+    background: rgba(0,0,0,0.1); border: none; color: #1C1C1C;
+    width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; transition: all 0.2s;
+}
+#preg-chat-close-btn:hover { background: rgba(0,0,0,0.2); }
+#preg-chat-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+#preg-chat-faq {
+    padding: 12px 16px; border-bottom: 1px solid #F0EBE3; flex-shrink: 0;
+}
+.preg-faq-label {
+    font-size: 0.75rem; font-weight: 600; color: #8B7355 !important;
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;
+}
+.preg-faq-chip {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 18px; padding: 5px 12px; margin: 3px 4px 3px 0;
+    font-size: 0.78rem; cursor: pointer; transition: all 0.2s;
+    color: #1C1C1C; font-family: 'Poppins', sans-serif;
+}
+.preg-faq-chip:hover { background: rgba(212, 175, 55, 0.2); border-color: #D4AF37; }
+#preg-chat-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    background: #FFFAF5;
+}
+.preg-chat-empty {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; height: 100%; text-align: center; padding: 20px;
+}
+.preg-chat-empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.preg-chat-empty-text { font-size: 0.85rem; color: #B8A89C; }
+.preg-msg {
+    padding: 12px 16px; border-radius: 16px; font-size: 0.85rem;
+    line-height: 1.6; margin-bottom: 12px; color: #1C1C1C;
+}
+.preg-faq-msg {
+    background: white; border: 1px solid rgba(212, 175, 55, 0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    animation: pregSlideUp 0.25s ease-out;
+}
+@keyframes pregSlideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+#preg-chat-footer {
+    padding: 12px 16px; border-top: 1px solid #F0EBE3;
+    background: white; flex-shrink: 0; text-align: center;
+}
+#preg-chat-ai-prompt {
+    font-size: 0.8rem; color: #8B7355; cursor: pointer;
+}
+</style>"""
+    st.markdown(widget_html, unsafe_allow_html=True)
+
 def main():
     model, scaler, label_encoder, feature_cols = load_model_artifacts()
     
@@ -480,6 +402,8 @@ def main():
         ai_assistant_page()
     elif page == "Model Comparison":
         model_comparison_page()
+    
+    floating_chat_widget()
 
 # ========================================
 # RISK ASSESSMENT PAGE
