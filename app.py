@@ -120,6 +120,8 @@ pastel_css = """
 </style>
 """
 
+st.markdown(pastel_css, unsafe_allow_html=True)
+
 
 
 # ========================================
@@ -134,16 +136,16 @@ def load_model_artifacts():
         'label_encoder': 'label_encoder.pkl',
         'features': 'feature_columns.pkl'
     }
-    
+
     try:
         artifacts = {}
         for key, filename in required_files.items():
             if not os.path.exists(filename):
                 raise FileNotFoundError(f"Missing required file: {filename}")
             artifacts[key] = joblib.load(filename)
-        
+
         return artifacts['model'], artifacts['scaler'], artifacts['label_encoder'], artifacts['features']
-    
+
     except FileNotFoundError as e:
         st.error(f"❌ {str(e)}")
         st.info("📝 Please run `python model.py` first to generate model artifacts")
@@ -152,6 +154,7 @@ def load_model_artifacts():
         st.error(f"❌ Error loading model artifacts: {str(e)}")
         st.info("The model files may be corrupted. Try regenerating them.")
         st.stop()
+
 
 # ========================================
 # AI AGENT WITH GEMINI - FIXED
@@ -164,7 +167,6 @@ def get_ai_client():
         return None
     try:
         genai.configure(api_key=api_key)
-        # Use gemini-1.5-flash instead of gemini-pro
         return genai.GenerativeModel(
             'gemini-1.5-flash',
             generation_config={
@@ -176,6 +178,7 @@ def get_ai_client():
         st.error(f"Failed to initialize AI client: {e}")
         return None
 
+
 # ========================================
 # NEWS API INTEGRATION
 # ========================================
@@ -184,7 +187,7 @@ def fetch_maternal_health_news():
     api_key = os.getenv("NEWS_API_KEY")
     if not api_key:
         return []
-    
+
     try:
         url = "https://newsapi.org/v2/everything"
         params = {
@@ -199,178 +202,226 @@ def fetch_maternal_health_news():
             return response.json().get("articles", [])
     except Exception as e:
         st.warning(f"Could not fetch news: {e}")
-    
+
     return []
+
 
 # ========================================
 # MAIN FUNCTION
 # ========================================
-
-def handle_faq(faq_key):
-    answers = {
-        "faq_bp": "**High Blood Pressure in Pregnancy:**\n\nBlood pressure >=140/90 mmHg is considered elevated. Normal is <120/80 mmHg. Hypertension during pregnancy can lead to complications like preeclampsia. Monitor BP regularly and contact your doctor if readings are consistently high.",
-        "faq_prenatal": "**Prenatal Visit Schedule:**\n\n* Weeks 1-28: Monthly visits\n* Weeks 28-36: Bi-weekly visits\n* Week 36+: Weekly visits\n\nHigh-risk pregnancies may require more frequent monitoring.",
-        "faq_exercise": "**Exercise During Pregnancy:**\n\nYes! 150 minutes of moderate activity per week is generally safe. Recommended: walking, swimming, prenatal yoga. Avoid: contact sports, lying flat after first trimester, activities with fall risk.",
-        "faq_emergency": "**Emergency Warning Signs:**\n\n🚨 Severe headache\n🚨 Vision changes/blurred vision\n🚨 Chest pain\n🚨 Severe abdominal pain\n🚨 Vaginal bleeding\n🚨 Decreased fetal movement\n🚨 Severe swelling of hands/face"
-    }
-    return answers.get(faq_key, "")
-
-
 def floating_chat_widget():
     "Floating chat bubble widget at bottom-right corner"
-    widget_html = """<div id="preg-chat-root">
-    <button id="preg-chat-fab" onclick="pregToggleChat()">
-        <span id="preg-chat-icon">💬</span>
-        <span id="preg-chat-close-icon" style="display:none">✕</span>
-    </button>
-    <div id="preg-chat-panel">
-        <div id="preg-chat-header">
-            <span>🤖 AI Assistant</span>
-            <button id="preg-chat-close-btn" onclick="pregToggleChat()">✕</button>
-        </div>
-        <div id="preg-chat-body">
-            <div id="preg-chat-faq">
-                <div class="preg-faq-label">Quick Questions</div>
-                <button class="preg-faq-chip" onclick="pregShowFaq('bp')">Blood Pressure</button>
-                <button class="preg-faq-chip" onclick="pregShowFaq('prenatal')">Prenatal Visits</button>
-                <button class="preg-faq-chip" onclick="pregShowFaq('exercise')">Exercise Safety</button>
-                <button class="preg-faq-chip" onclick="pregShowFaq('emergency')">Emergency Signs</button>
-            </div>
-            <div id="preg-chat-messages">
-                <div class="preg-chat-empty">
-                    <div class="preg-chat-empty-icon">💬</div>
-                    <div class="preg-chat-empty-text">Ask a question or pick a topic above!</div>
-                </div>
-            </div>
-        </div>
-        <div id="preg-chat-footer">
-            <div id="preg-chat-ai-prompt">
-                For AI-powered answers, visit the
-                <a href="#" onclick="pregGoToAI()" style="color:#B8860B;font-weight:600">AI Health Assistant</a> page.
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-var pregFaqs = {
-    bp: "**High Blood Pressure in Pregnancy:**\\n\\nBlood pressure >=140/90 mmHg is considered elevated. Normal is <120/80 mmHg. Hypertension during pregnancy can lead to complications like preeclampsia. Monitor BP regularly and contact your doctor if readings are consistently high.",
-    prenatal: "**Prenatal Visit Schedule:**\\n\\n* Weeks 1-28: Monthly visits\\n* Weeks 28-36: Bi-weekly visits\\n* Week 36+: Weekly visits\\n\\nHigh-risk pregnancies may require more frequent monitoring.",
-    exercise: "**Exercise During Pregnancy:**\\n\\nYes! 150 minutes of moderate activity per week is generally safe. Recommended: walking, swimming, prenatal yoga. Avoid: contact sports, lying flat after first trimester, activities with fall risk.",
-    emergency: "**Emergency Warning Signs:**\\n\\n\\ud83d\\udea8 Severe headache\\n\\ud83d\\udea8 Vision changes/blurred vision\\n\\ud83d\\udea8 Chest pain\\n\\ud83d\\udea8 Severe abdominal pain\\n\\ud83d\\udea8 Vaginal bleeding\\n\\ud83d\\udea8 Decreased fetal movement\\n\\ud83d\\udea8 Severe swelling of hands/face"
-};
-function pregToggleChat() {
-    var panel = document.getElementById('preg-chat-panel');
-    var fab = document.getElementById('preg-chat-fab');
-    var chatIcon = document.getElementById('preg-chat-icon');
-    var closeIcon = document.getElementById('preg-chat-close-icon');
-    if (panel.style.display === 'flex') {
-        panel.style.display = 'none';
-        fab.style.display = 'flex';
-        chatIcon.style.display = 'inline';
-        closeIcon.style.display = 'none';
-    } else {
-        panel.style.display = 'flex';
-        fab.style.display = 'none';
-    }
-}
-function pregShowFaq(key) {
-    var msgDiv = document.getElementById('preg-chat-messages');
-    var answer = pregFaqs[key] || 'No information available.';
-    var html = '<div class="preg-msg preg-faq-msg">' + answer.split('\\n').join('<br>') + '</div>';
-    msgDiv.innerHTML = html;
-}
-function pregGoToAI() {
-    var radios = document.querySelectorAll('.stRadio [role="radiogroup"] input');
-    if (radios.length >= 3) {
-        radios[2].click();
-    }
-    pregToggleChat();
-}
-</script>
+    widget_html = """
 <style>
-#preg-chat-root { font-family: 'Poppins', sans-serif; }
-#preg-chat-fab {
-    position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-    width: 60px; height: 60px;
-    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
-    border-radius: 50%; border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
-    font-size: 28px; transition: all 0.3s ease;
-    animation: pregPulse 2s ease-in-out infinite;
+#preg-chat-root {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9999;
+    font-family: 'Poppins', sans-serif;
 }
-#preg-chat-fab:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5); }
+#preg-chat-toggle {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+#preg-chat-fab {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 10000;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+    font-size: 28px;
+    transition: all 0.3s ease;
+    animation: pregPulse 2s ease-in-out infinite;
+    color: #1C1C1C;
+}
+#preg-chat-fab:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+}
+.preg-fab-icon-close {
+    display: none;
+}
+#preg-chat-toggle:checked + #preg-chat-fab .preg-fab-icon-open {
+    display: none;
+}
+#preg-chat-toggle:checked + #preg-chat-fab .preg-fab-icon-close {
+    display: inline;
+}
+#preg-chat-panel {
+    position: fixed;
+    right: 24px;
+    bottom: 100px;
+    z-index: 9998;
+    width: 380px;
+    height: 520px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.96);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+#preg-chat-toggle:checked ~ #preg-chat-panel {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
 @keyframes pregPulse {
     0%, 100% { box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4); }
     50% { box-shadow: 0 4px 36px rgba(212, 175, 55, 0.65); }
 }
-#preg-chat-panel {
-    position: fixed; bottom: 100px; right: 24px; z-index: 9998;
-    width: 380px; height: 520px; background: white; border-radius: 20px;
-    box-shadow: 0 16px 60px rgba(0, 0, 0, 0.18);
-    display: none; flex-direction: column; overflow: hidden;
-    animation: pregSlideIn 0.3s ease-out;
-}
-@keyframes pregSlideIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
 #preg-chat-header {
     background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
-    padding: 14px 20px; display: flex; justify-content: space-between;
-    align-items: center; flex-shrink: 0; font-weight: 600; color: #1C1C1C;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    font-weight: 600;
+    color: #1C1C1C;
 }
 #preg-chat-close-btn {
-    background: rgba(0,0,0,0.1); border: none; color: #1C1C1C;
-    width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; transition: all 0.2s;
+    background: rgba(0,0,0,0.1);
+    border: none;
+    color: #1C1C1C;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
 }
-#preg-chat-close-btn:hover { background: rgba(0,0,0,0.2); }
-#preg-chat-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+#preg-chat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
 #preg-chat-faq {
-    padding: 12px 16px; border-bottom: 1px solid #F0EBE3; flex-shrink: 0;
+    padding: 12px 16px;
+    border-bottom: 1px solid #F0EBE3;
+    flex-shrink: 0;
 }
 .preg-faq-label {
-    font-size: 0.75rem; font-weight: 600; color: #8B7355 !important;
-    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #8B7355 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
 }
-.preg-faq-chip {
-    display: inline-block;
-    background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.25);
-    border-radius: 18px; padding: 5px 12px; margin: 3px 4px 3px 0;
-    font-size: 0.78rem; cursor: pointer; transition: all 0.2s;
-    color: #1C1C1C; font-family: 'Poppins', sans-serif;
+.preg-faq-item {
+    border: 1px solid rgba(212, 175, 55, 0.18);
+    border-radius: 14px;
+    background: rgba(212, 175, 55, 0.06);
+    margin-bottom: 8px;
+    overflow: hidden;
 }
-.preg-faq-chip:hover { background: rgba(212, 175, 55, 0.2); border-color: #D4AF37; }
+.preg-faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1C1C1C;
+}
+.preg-faq-item summary::-webkit-details-marker {
+    display: none;
+}
+.preg-faq-answer {
+    padding: 0 12px 12px 12px;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: #1C1C1C;
+}
 #preg-chat-messages {
-    flex: 1; overflow-y: auto; padding: 16px;
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
     background: #FFFAF5;
 }
 .preg-chat-empty {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; height: 100%; text-align: center; padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 20px;
 }
 .preg-chat-empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
 .preg-chat-empty-text { font-size: 0.85rem; color: #B8A89C; }
-.preg-msg {
-    padding: 12px 16px; border-radius: 16px; font-size: 0.85rem;
-    line-height: 1.6; margin-bottom: 12px; color: #1C1C1C;
+.preg-chat-note {
+    padding: 12px 16px;
+    border-top: 1px solid #F0EBE3;
+    background: white;
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #8B7355;
 }
-.preg-faq-msg {
-    background: white; border: 1px solid rgba(212, 175, 55, 0.15);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    animation: pregSlideUp 0.25s ease-out;
-}
-@keyframes pregSlideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-#preg-chat-footer {
-    padding: 12px 16px; border-top: 1px solid #F0EBE3;
-    background: white; flex-shrink: 0; text-align: center;
-}
-#preg-chat-ai-prompt {
-    font-size: 0.8rem; color: #8B7355; cursor: pointer;
-}
-</style>"""
+</style>
+<div id="preg-chat-root">
+    <input type="checkbox" id="preg-chat-toggle" />
+    <label id="preg-chat-fab" for="preg-chat-toggle" aria-label="Open chatbot">
+        <span class="preg-fab-icon-open">💬</span>
+        <span class="preg-fab-icon-close">✕</span>
+    </label>
+    <div id="preg-chat-panel">
+        <div id="preg-chat-header">
+            <span>🤖 Quick Help</span>
+            <label id="preg-chat-close-btn" for="preg-chat-toggle" aria-label="Close chatbot">✕</label>
+        </div>
+        <div id="preg-chat-body">
+            <div id="preg-chat-faq">
+                <div class="preg-faq-label">Quick Questions</div>
+                <details class="preg-faq-item">
+                    <summary>Blood Pressure</summary>
+                    <div class="preg-faq-answer">Blood pressure of 140/90 mmHg or higher is considered elevated during pregnancy. If readings stay high, contact your clinician.</div>
+                </details>
+                <details class="preg-faq-item">
+                    <summary>Prenatal Visits</summary>
+                    <div class="preg-faq-answer">Typical schedule: monthly visits until 28 weeks, every 2 weeks until 36 weeks, then weekly visits.</div>
+                </details>
+                <details class="preg-faq-item">
+                    <summary>Exercise Safety</summary>
+                    <div class="preg-faq-answer">About 150 minutes of moderate activity per week is generally safe for many pregnancies, unless your clinician says otherwise.</div>
+                </details>
+                <details class="preg-faq-item">
+                    <summary>Emergency Signs</summary>
+                    <div class="preg-faq-answer">Severe headache, vision changes, chest pain, severe abdominal pain, bleeding, or decreased fetal movement need urgent medical attention.</div>
+                </details>
+            </div>
+            <div id="preg-chat-messages">
+                <div class="preg-chat-empty">
+                    <div class="preg-chat-empty-icon">💬</div>
+                    <div class="preg-chat-empty-text">Open the AI Health Assistant tab for Gemini chat, or use the quick questions above.</div>
+                </div>
+            </div>
+        </div>
+        <div class="preg-chat-note">
+            Gemini chat is available in the AI Health Assistant tab.
+        </div>
+    </div>
+</div>
+"""
     st.markdown(widget_html, unsafe_allow_html=True)
 
 def main():
@@ -1024,11 +1075,15 @@ def ai_assistant_page():
             st.rerun()
         
         except Exception as e:
-            st.error(f"❌ Error communicating with AI: {str(e)}")
-            st.info("Please check your API key and internet connection.")
-            
-            # Add fallback response
-            fallback = "I'm having trouble connecting right now. Please consult with your healthcare provider for personalized medical advice."
+            error_text = str(e)
+            if "API_KEY_INVALID" in error_text or "api key not valid" in error_text.lower():
+                st.error("❌ Gemini API key is invalid or not enabled for this app.")
+                st.info("Update GEMINI_API_KEY in your deployed environment with a valid key from Google AI Studio, then restart the app.")
+                fallback = "I can't reach Gemini because the API key is invalid. The quick questions above are still available, and you can fix the key in the deployment settings."
+            else:
+                st.error("❌ Error communicating with AI. Please check your internet connection or try again.")
+                st.info("If the issue persists, verify your Gemini setup.")
+                fallback = "I'm having trouble connecting right now. Please consult with your healthcare provider for personalized medical advice."
             st.session_state.messages.append({"role": "assistant", "content": fallback})
 
 # ========================================
